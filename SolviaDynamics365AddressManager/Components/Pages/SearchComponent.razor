@@ -1,0 +1,74 @@
+﻿@page "/search"
+@using SolviaDynamics365AddressManager.Models
+@inject SolviaDynamics365AddressManager.Services.DynamicsService dynamicsService
+
+<h3>Entity Search</h3>
+
+<div>
+    <label for="entity">Entity Type:</label>
+    <select id="entity" @bind="selectedEntity">
+        <option value="account">Account</option>
+        <option value="contact">Contact</option>
+    </select>
+</div>
+
+<div>
+    <label for="searchTerm">Search Term:</label>
+    <input id="searchTerm" type="text" @bind="searchTerm" placeholder="Enter name..." />
+    <button @onclick="SearchEntities">Search</button>
+</div>
+
+@if (searchResults == null)
+{
+    <p>No search results yet.</p>
+}
+else if (!searchResults.Any())
+{
+    <p>No results found.</p>
+}
+else
+{
+    <table class="dynamic-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var result in searchResults)
+            {
+                <tr>
+                    <td>@result.Document.Name</td>
+                    <td>@result.Document.Address1_City</td>
+                    <td>@result.Document.EmailAddress1</td>
+                    <td>@result.Document.Telephone1</td>
+                    <td>@result.Document.ObjectId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private string searchTerm = string.Empty;
+    private string selectedEntity = "account"; // Default to "account"
+    private List<SearchResult> searchResults = null;
+
+    private async Task SearchEntities()
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm)) return;
+
+        try
+        {
+            searchResults = await dynamicsService.SearchEntitiesAsync(searchTerm, selectedEntity);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error searching entities: {ex.Message}");
+        }
+    }
+}

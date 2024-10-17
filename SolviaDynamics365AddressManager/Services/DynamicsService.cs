@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Dynamic;
+using System.Net.Http.Headers;
 using System.Text;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json;
@@ -158,5 +159,35 @@ namespace SolviaDynamics365AddressManager.Services
                 throw new Exception("Failed to delete account");
             }
         }
+
+        public async Task<List<SearchResult>> SearchEntitiesAsync(string searchText, string entityType)
+        {
+            var client = await AddAuthorizationHeader();
+
+            var searchRequest = new
+            {
+                entities = new[] { entityType },
+                search = searchText,
+                usefuzzy = true
+            };
+
+            string jsonContent = JsonConvert.SerializeObject(searchRequest);
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"{ApiBaseUrl}/api/search/v1.0/suggest")
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            string result = await response.Content.ReadAsStringAsync();
+
+            // Deserialize into the SearchResponse model
+            var searchResponse = JsonConvert.DeserializeObject<SearchResponse>(result);
+
+            return searchResponse?.Value ?? new List<SearchResult>();
+        }
+
     }
 }
