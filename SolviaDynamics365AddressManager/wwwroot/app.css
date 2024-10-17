@@ -43,39 +43,9 @@ nav ul {
     color: blue;
 }
 
-
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
-    gap: 10px; /* Space between cells */
-    width: 100%;
-    margin-top: 20px;
-}
-
-.grid-header {
-    display: contents; /* Allows the header to align with grid cells */
-    font-weight: bold;
-    border-bottom: 2px solid #ccc; /* Underline for header */
-}
-
-.grid-row {
-    display: contents;
-    border-bottom: 1px solid #ddd;
-}
-
-.grid-cell {
-    padding: 10px;
-    border-right: 1px solid #ddd;
-}
-
-    .grid-cell:last-child {
-        border-right: none; /* No border on the last column */
-    }
-
-
 .custom-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-columns: 1fr 1.5fr 1fr; /* Three columns: Email has more space */
     border: 1px solid #ccc; /* Border around the entire grid */
     border-radius: 5px; /* Rounded corners */
     overflow: hidden; /* Clean edges */
@@ -119,3 +89,26 @@ nav ul {
 .custom-grid-row:last-child .custom-grid-cell {
     border-bottom: none; /* Remove border on last row */
 }
+
+
+
+.dynamic-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+    .dynamic-table th, .dynamic-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .dynamic-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .dynamic-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }

@@ -70,7 +70,7 @@ namespace SolviaDynamics365AddressManager.Services
         public async Task<List<Account>> GetAccountsAsync()
         {
             var client = await AddAuthorizationHeader();
-            var response = await client.GetAsync($"{ApiBaseUrl}/api/data/v{ApiVersion}/accounts?$select=name,accountid");
+            var response = await client.GetAsync($"{ApiBaseUrl}/api/data/v{ApiVersion}/accounts?$select=name,address1_city,accountid");
 
             if (response.IsSuccessStatusCode)
             {
@@ -87,7 +87,7 @@ namespace SolviaDynamics365AddressManager.Services
         public async Task<List<Contact>> GetContactsAsync()
         {
             var client = await AddAuthorizationHeader();
-            var response = await client.GetAsync($"{ApiBaseUrl}/api/data/v{ApiVersion}/contacts?$select=fullname,contactid");
+            var response = await client.GetAsync($"{ApiBaseUrl}/api/data/v{ApiVersion}/contacts?$select=fullname,emailaddress1,contactid");
 
             if (response.IsSuccessStatusCode)
             {

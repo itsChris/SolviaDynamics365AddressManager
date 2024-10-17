@@ -1,0 +1,33 @@
+﻿@typeparam TModel
+@if (Items == null || !Items.Any())
+{
+    <p>No data available.</p>
+}
+else
+{
+    <table class="dynamic-table">
+        <thead>
+            <tr>
+                @foreach (var property in typeof(TModel).GetProperties())
+                {
+                    <th>@property.Name</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Items)
+            {
+                <tr>
+                    @foreach (var property in typeof(TModel).GetProperties())
+                    {
+                        <td>@property.GetValue(item)</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter] public List<TModel> Items { get; set; }
+}
