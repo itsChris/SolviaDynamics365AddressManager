@@ -1,0 +1,47 @@
+﻿@page "/contacts"
+@using Newtonsoft.Json
+@using SolviaDynamics365AddressManager.Models
+@inject SolviaDynamics365AddressManager.Services.DynamicsService dynamicsService
+
+<h3>Contacts</h3>
+
+@if (contacts == null)
+{
+    <p>Loading contacts...</p>
+}
+else if (contacts.Count == 0)
+{
+    <p>No contacts found.</p>
+}
+else
+{
+    <div class="custom-grid">
+        <div class="custom-grid-header">
+            <div class="custom-grid-cell">Full Name</div>
+            <div class="custom-grid-cell">Contact ID</div>
+        </div>
+        @foreach (var contact in contacts)
+        {
+            <div class="custom-grid-row">
+                <div class="custom-grid-cell">@contact.FullName</div>
+                <div class="custom-grid-cell">@contact.ContactId</div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<Contact> contacts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            contacts = await dynamicsService.GetContactsAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading contacts: {ex.Message}");
+        }
+    }
+}

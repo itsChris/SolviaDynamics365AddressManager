@@ -9,10 +9,10 @@ namespace SolviaDynamics365AddressManager.Services
     public class DynamicsService
     {
         private readonly HttpClient _httpClient;
-        private readonly IConfiguration _configuration; 
+        private readonly IConfiguration _configuration;
 
-        private string ApiBaseUrl = "https://refolio-prod.crm17.dynamics.com/";
-        private string ApiVersion = "9.2";
+        private readonly string ApiBaseUrl;
+        private readonly string ApiVersion;
         private readonly string tenantId;
         private readonly string clientId;
         private readonly string clientSecret;
@@ -27,6 +27,8 @@ namespace SolviaDynamics365AddressManager.Services
             tenantId = _configuration["EntraId:TenantId"];
             clientId = _configuration["EntraId:ClientId"];
             clientSecret = _configuration["EntraId:ClientSecret"];
+            ApiBaseUrl = _configuration["DynamicsApi:ApiBaseUrl"];
+            ApiVersion = _configuration["DynamicsApi:ApiVersion"];
 
         }
 
@@ -82,14 +84,16 @@ namespace SolviaDynamics365AddressManager.Services
 
 
         // List Contacts
-        public async Task<string> GetContactsAsync()
+        public async Task<List<Contact>> GetContactsAsync()
         {
             var client = await AddAuthorizationHeader();
             var response = await client.GetAsync($"{ApiBaseUrl}/api/data/v{ApiVersion}/contacts?$select=fullname,contactid");
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsStringAsync();
+                var responseString = await response.Content.ReadAsStringAsync();
+                var contactsResponse = JsonConvert.DeserializeObject<ContactResponse>(responseString);
+                return contactsResponse.Value;
             }
 
             throw new Exception("Failed to load contacts");

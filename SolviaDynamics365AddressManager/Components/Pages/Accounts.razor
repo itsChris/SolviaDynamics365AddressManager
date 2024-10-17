@@ -3,8 +3,6 @@
 @using SolviaDynamics365AddressManager.Models
 @inject SolviaDynamics365AddressManager.Services.DynamicsService dynamicsService
 
-<h3>Accounts and Contacts</h3>
-
 <h3>Accounts</h3>
 
 @if (accounts == null)
@@ -17,12 +15,19 @@ else if (accounts.Count == 0)
 }
 else
 {
-    <ul>
+    <div class="custom-grid">
+        <div class="custom-grid-header">
+            <div class="custom-grid-cell">Account Name</div>
+            <div class="custom-grid-cell">Account ID</div>
+        </div>
         @foreach (var account in accounts)
         {
-            <li>@account.Name (ID: @account.AccountId)</li>
+            <div class="custom-grid-row">
+                <div class="custom-grid-cell">@account.Name</div>
+                <div class="custom-grid-cell">@account.AccountId</div>
+            </div>
         }
-    </ul>
+    </div>
 }
 
 @code {

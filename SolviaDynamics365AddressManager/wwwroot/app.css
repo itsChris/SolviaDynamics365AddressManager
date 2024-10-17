@@ -42,3 +42,80 @@ nav ul {
     text-decoration: none;
     color: blue;
 }
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal-width columns */
+    gap: 10px; /* Space between cells */
+    width: 100%;
+    margin-top: 20px;
+}
+
+.grid-header {
+    display: contents; /* Allows the header to align with grid cells */
+    font-weight: bold;
+    border-bottom: 2px solid #ccc; /* Underline for header */
+}
+
+.grid-row {
+    display: contents;
+    border-bottom: 1px solid #ddd;
+}
+
+.grid-cell {
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+    .grid-cell:last-child {
+        border-right: none; /* No border on the last column */
+    }
+
+
+.custom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    border: 1px solid #ccc; /* Border around the entire grid */
+    border-radius: 5px; /* Rounded corners */
+    overflow: hidden; /* Clean edges */
+    font-family: Arial, sans-serif; /* Clean font */
+}
+
+.custom-grid-header {
+    background-color: #f7f7f7; /* Light background for headers */
+    font-weight: bold;
+    display: contents; /* Header should align with grid cells */
+}
+
+.custom-grid-row {
+    display: contents; /* Rows align with grid cells */
+}
+
+.custom-grid-cell {
+    padding: 12px 15px; /* Padding for cell content */
+    border-bottom: 1px solid #eee; /* Separator between rows */
+    display: flex;
+    align-items: center;
+}
+
+.custom-grid-row:nth-child(even) {
+    background-color: #f9f9f9; /* Subtle row striping */
+}
+
+.custom-grid-cell:last-child {
+    text-align: right; /* Align IDs to the right */
+}
+
+.custom-grid-cell:first-child {
+    font-weight: 500;
+}
+
+.custom-grid-header .custom-grid-cell {
+    border-bottom: 2px solid #ccc; /* Thicker bottom border for header */
+    text-align: left;
+}
+
+.custom-grid-row:last-child .custom-grid-cell {
+    border-bottom: none; /* Remove border on last row */
+}
