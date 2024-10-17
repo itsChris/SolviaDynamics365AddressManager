@@ -1,0 +1,26 @@
+﻿@page "/create-account"
+@inject NavigationManager NavigationManager
+@inject SolviaDynamics365AddressManager.Services.DynamicsService dynamicsService
+
+<h3>Create New Account</h3>
+
+<input @bind="accountName" placeholder="Enter account name" />
+<button @onclick="SubmitCreateAccount">Create</button>
+
+@code {
+    private string accountName;
+
+    private async Task SubmitCreateAccount()
+    {
+        try
+        {
+            await dynamicsService.CreateAccountAsync(accountName);
+            accountName = string.Empty; // clear input after successful creation
+            NavigationManager.NavigateTo("/accounts"); // Use NavigationManager for navigation
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating account: {ex.Message}");
+        }
+    }
+}
